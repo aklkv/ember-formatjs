@@ -23,16 +23,14 @@ intl.formatMessage({
 
 ## Packages
 
-This repository publishes two packages. The transforms live in one, the classic build
-wiring in the other, so that a Vite app never installs an ember-cli addon it cannot use.
+This repository publishes two packages. The transforms live in one, the classic build wiring in the other, so that a Vite app never installs an ember-cli addon it cannot use.
 
 | package                       | what it is                                | who installs it       |
 | ----------------------------- | ----------------------------------------- | --------------------- |
 | `babel-plugin-ember-formatjs` | the transforms, no Ember dependencies     | Embroider + Vite apps |
 | `ember-formatjs`              | a thin ember-cli addon that wires them up | classic apps          |
 
-`ember-formatjs` depends on `babel-plugin-ember-formatjs`, so a classic app installs one
-package and gets both.
+`ember-formatjs` depends on `babel-plugin-ember-formatjs`, so a classic app installs one package and gets both.
 
 ## Compatibility
 
@@ -51,9 +49,7 @@ In a classic (ember-cli / broccoli) app, installing is all the setup there is:
 ember install ember-intl ember-formatjs
 ```
 
-In an Embroider + Vite app, install the plugin package and wire it into your Babel
-config. There is no addon to install, because Embroider v2 has no build hook that can add
-a Babel plugin or a template transform to the app for you:
+In an Embroider + Vite app, install the plugin package and wire it into your Babel config. There is no addon to install, because Embroider v2 has no build hook that can add a Babel plugin or a template transform to the app for you:
 
 ```
 pnpm add -D babel-plugin-ember-formatjs
@@ -205,14 +201,15 @@ let app = new EmberApp(defaults, {
 });
 ```
 
-Under Embroider + Vite the same option is passed to each plugin directly. Both take it,
-and both must agree:
+Under Embroider + Vite the same option is passed to each plugin directly. Both take it, and both must agree:
 
 ```js
 const options = { idInterpolationPattern: '[sha512:contenthash:base64:6]' };
 
-// in plugins:
-[formatjs, options],
-// and in the template-compilation transforms:
-formatjsTemplateTransform(options),
+export default {
+	plugins: [
+		[formatjs, options],
+		['module:babel-plugin-ember-template-compilation', { transforms: [formatjsTemplateTransform(options)] }],
+	],
+};
 ```
