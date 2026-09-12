@@ -8,7 +8,7 @@ on:
   pull_request: {}
 
 env:
-  NODE_VERSION: 20
+  NODE_VERSION: 24
 
 jobs:
   lint:
@@ -21,13 +21,32 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
       - run: pnpm lint:js
       - run: pnpm lint:prettier
 
   test:
-    name: Node Tests
+    name: Node ${{ matrix.node-version }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22, 24, 26]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:node
+
+  test-babel-7:
+    name: '@babel/core 7'
+    runs-on: ubuntu-latest
+    # The plugin declares a peer range of ^7.0.0 || ^8.0.0. The rest of CI runs on 8,
+    # so this job keeps the lower bound of that range honest.
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -35,5 +54,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm add -D -w @babel/core@^7 @babel/plugin-transform-typescript@^7
       - run: pnpm test:node
