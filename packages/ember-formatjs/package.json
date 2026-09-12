@@ -14,7 +14,8 @@
   "author": "",
   "main": "index.js",
   "files": [
-    "index.js"
+    "index.js",
+    "LICENSE"
   ],
   "dependencies": {
     "babel-plugin-ember-formatjs": "workspace:*",
@@ -33,5 +34,8 @@
     "before": [
       "ember-cli-htmlbars"
     ]
+  },
+  "scripts": {
+    "test:node": "mocha node-tests"
   }
 }

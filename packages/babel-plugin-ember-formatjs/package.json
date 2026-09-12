@@ -27,7 +27,8 @@
   },
   "main": "./src/index.cjs",
   "files": [
-    "src"
+    "src",
+    "LICENSE"
   ],
   "scripts": {
     "test:node": "mocha node-tests"
