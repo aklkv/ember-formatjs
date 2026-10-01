@@ -37,7 +37,7 @@ This repository publishes two packages. The transforms live in one, the classic 
 - Ember classic >= 3.28
 - Embroider + Vite
 - `@babel/core` 7 or 8
-- Node 22.12 or later
+- Node 20.19+ or 22.12+
 
 ## Usage
 
@@ -49,7 +49,7 @@ In a classic (ember-cli / broccoli) app, installing is all the setup there is:
 ember install ember-intl ember-formatjs
 ```
 
-In an Embroider + Vite app, install the plugin package and wire it into your Babel config. There is no addon to install, because Embroider v2 has no build hook that can add a Babel plugin or a template transform to the app for you:
+In an Embroider + Vite app, install the plugin package and wire it into your Babel config. This keeps the classic addon out of the build entirely, and works whether or not the app still uses `@embroider/compat`:
 
 ```
 pnpm add -D babel-plugin-ember-formatjs

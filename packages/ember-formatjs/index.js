@@ -13,8 +13,9 @@ const defaults = require('babel-plugin-ember-formatjs/defaults');
  * `included()` hook, which has already run by the time `ember-cli-build.js` gets the app
  * back from the `EmberApp` constructor.
  *
- * Embroider + Vite apps have no equivalent hook and should not install this package.
- * They wire the same two plugins directly in `babel.config.*` instead; see the README.
+ * Embroider + Vite apps should wire the same two plugins directly in `babel.config.*`
+ * instead; see the README. `@embroider/compat` can pick up this addon's registrations
+ * through `babelCompatSupport()` and `templateCompatSupport()`, but that path is untested.
  */
 module.exports = {
 	name: require('./package').name,
