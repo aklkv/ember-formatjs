@@ -48,8 +48,8 @@ importers:
         specifier: ^7.0.0 || ^8.0.0
         version: 8.0.5
       '@babel/helper-plugin-utils':
-        specifier: 8.0.1
-        version: 8.0.1(@babel/core@8.0.5)
+        specifier: 7.29.7
+        version: 7.29.7
       '@formatjs/ts-transformer':
         specifier: 4.4.19
         version: 4.4.19
@@ -57,8 +57,8 @@ importers:
         specifier: '>= 2.0.0'
         version: 4.0.0
       ember-intl:
-        specifier: ^7.1.8
-        version: 7.5.0(typescript@5.9.3)(webpack@5.110.3(postcss@8.5.28))
+        specifier: ^7.1.8 || ^8.0.0 || ^9.0.0
+        version: 7.5.0(typescript@5.9.3)(webpack@5.110.3)
 
   packages/ember-formatjs:
     dependencies:
@@ -69,8 +69,8 @@ importers:
         specifier: 1.1.1
         version: 1.1.1
       ember-intl:
-        specifier: ^7.1.8
-        version: 7.5.0(typescript@5.9.3)(webpack@5.110.3)
+        specifier: ^7.1.8 || ^8.0.0 || ^9.0.0
+        version: 7.5.0(typescript@5.9.3)(webpack@5.110.3(postcss@8.5.28))
 
 packages:
 
@@ -186,10 +186,6 @@ packages:
   '@babel/helper-optimise-call-expression@8.0.0':
     resolution: {integrity: sha512-3W6satvtPuCUkUx63S2jMoW9EQNYkADgs1HTfufmL7gCmAulHMKupA/12WNz4A0GMMFn/YnWWwqOT9IZrJHQjg==}
     engines: {node: ^22.18.0 || >=24.11.0}
-
-  '@babel/helper-plugin-utils@7.26.5':
-    resolution: {integrity: sha512-RS+jZcRdZdRFzMyr+wcsaqOmld1/EqTghfaBGQQd/WnRdzdlvSZ//kF7U8VQTxf1ynZ4cjUcYgjVGx13ewNPMg==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/helper-plugin-utils@7.29.7':
     resolution: {integrity: sha512-G7sHYigPY17oO5SYWnfD/0MTBwVR781S/JI643e/JhUYgVgWE/61SoW3NH9KWUKyKq5LVh3npif99Wkt6j86Jw==}
@@ -3809,8 +3805,6 @@ snapshots:
     dependencies:
       '@babel/types': 8.0.5
 
-  '@babel/helper-plugin-utils@7.26.5': {}
-
   '@babel/helper-plugin-utils@7.29.7': {}
 
   '@babel/helper-plugin-utils@8.0.1(@babel/core@8.0.5)':
@@ -3939,7 +3933,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.29.7
       '@babel/helper-create-class-features-plugin': 7.29.7(@babel/core@7.29.7)
-      '@babel/helper-plugin-utils': 7.26.5
+      '@babel/helper-plugin-utils': 7.29.7
     transitivePeerDependencies:
       - supports-color
 
@@ -3956,7 +3950,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.29.7
       '@babel/helper-create-class-features-plugin': 7.29.7(@babel/core@7.29.7)
-      '@babel/helper-plugin-utils': 7.26.5
+      '@babel/helper-plugin-utils': 7.29.7
     transitivePeerDependencies:
       - supports-color
 
@@ -3993,7 +3987,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.29.7
       '@babel/helper-create-regexp-features-plugin': 7.29.7(@babel/core@7.29.7)
-      '@babel/helper-plugin-utils': 7.26.5
+      '@babel/helper-plugin-utils': 7.29.7
 
   '@babel/plugin-transform-arrow-functions@7.29.7(@babel/core@7.29.7)':
     dependencies:
@@ -4440,7 +4434,7 @@ snapshots:
   '@babel/preset-modules@0.1.6-no-external-plugins(@babel/core@7.29.7)':
     dependencies:
       '@babel/core': 7.29.7
-      '@babel/helper-plugin-utils': 7.26.5
+      '@babel/helper-plugin-utils': 7.29.7
       '@babel/types': 7.29.8
       esutils: 2.0.3
 

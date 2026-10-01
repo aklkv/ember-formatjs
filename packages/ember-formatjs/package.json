@@ -22,10 +22,10 @@
     "ember-cli-babel-plugin-helpers": "1.1.1"
   },
   "peerDependencies": {
-    "ember-intl": "^7.1.8"
+    "ember-intl": "^7.1.8 || ^8.0.0 || ^9.0.0"
   },
   "engines": {
-    "node": "^22.12.0 || >= 24"
+    "node": "^20.19.0 || >=22.12.0"
   },
   "ember": {
     "edition": "octane"

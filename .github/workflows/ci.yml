@@ -42,18 +42,26 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:node
 
-  test-babel-7:
-    name: '@babel/core 7'
+  test-lower-bounds:
+    name: 'Node 20.19, @babel/core 7'
     runs-on: ubuntu-latest
-    # The plugin declares a peer range of ^7.0.0 || ^8.0.0. The rest of CI runs on 8,
-    # so this job keeps the lower bound of that range honest.
+    # The packages declare `^20.19.0 || >=22.12.0` for Node and `^7.0.0 || ^8.0.0` for
+    # @babel/core. The matrix above runs on Babel 8, which itself needs Node 22, so this
+    # job holds the lower end of both ranges: 20.19.0 is where require(esm) is unflagged,
+    # which loading the ESM-only @formatjs/ts-transformer from CJS depends on.
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: 20.19.0
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm add -D -w @babel/core@^7 @babel/plugin-transform-typescript@^7
+      # A plain `pnpm add -w` does not reach the plugin package, where pnpm installs the
+      # @babel/core peer itself, nor babel-plugin-tester. An override replaces it everywhere.
+      - run: |
+          printf 'overrides:\n  "@babel/core": ^7\n  "@babel/plugin-transform-typescript": ^7\n' >> pnpm-workspace.yaml
+      - run: pnpm install --no-frozen-lockfile
+      - name: Assert Babel 7 is what the tests load
+        working-directory: packages/babel-plugin-ember-formatjs
+        run: node -e "const v = require('@babel/core').version; if (!v.startsWith('7.')) throw new Error('expected @babel/core 7, got ' + v); console.log('@babel/core', v)"
       - run: pnpm test:node

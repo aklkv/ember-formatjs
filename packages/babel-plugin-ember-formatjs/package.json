@@ -34,13 +34,13 @@
     "test:node": "mocha node-tests"
   },
   "dependencies": {
-    "@babel/helper-plugin-utils": "8.0.1",
+    "@babel/helper-plugin-utils": "7.29.7",
     "@formatjs/ts-transformer": "4.4.19"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0 || ^8.0.0",
     "babel-plugin-ember-template-compilation": ">= 2.0.0",
-    "ember-intl": "^7.1.8"
+    "ember-intl": "^7.1.8 || ^8.0.0 || ^9.0.0"
   },
   "peerDependenciesMeta": {
     "babel-plugin-ember-template-compilation": {
@@ -48,6 +48,6 @@
     }
   },
   "engines": {
-    "node": "^22.12.0 || >= 24"
+    "node": "^20.19.0 || >=22.12.0"
   }
 }
