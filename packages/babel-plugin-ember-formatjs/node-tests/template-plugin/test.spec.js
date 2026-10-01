@@ -41,11 +41,24 @@ function wrap(template, options) {
 	].join('\n');
 }
 
-async function compile(compilerPath, template, { options, filename = APP_FILE, transformOptions } = {}) {
+// What `content-tag` turns a `<template>` in a `.gjs` / `.gts` file into.
+function wrapTemplateTag(template) {
+	return [
+		`import { template } from '@ember/template-compiler';`,
+		`export default template(${JSON.stringify(template)}, { eval() { return eval(arguments[0]); } });`,
+	].join('\n');
+}
+
+async function compile(
+	compilerPath,
+	template,
+	{ options, filename = APP_FILE, transformOptions, templateTag = false } = {},
+) {
 	const mod = await import(compilerPath);
 	const plugin = mod.default ?? mod;
+	const source = templateTag ? wrapTemplateTag(template) : wrap(template, options);
 
-	const result = await babel.transformAsync(wrap(template, options), {
+	const result = await babel.transformAsync(source, {
 		filename,
 		configFile: false,
 		babelrc: false,
@@ -78,6 +91,20 @@ for (const [label, compilerPath] of COMPILERS) {
 
 			assert.match(code, /import t from "ember-intl\/helpers\/t"/);
 			assert.match(code, /scope: \(\) => \(\{\s*t\s*\}\)/);
+		});
+
+		it('imports the t helper for a <template> tag, which is always strict', async function () {
+			const code = await compile(compilerPath, `{{format-message "Hello world"}}`, { templateTag: true });
+
+			assert.match(code, /import t from "ember-intl\/helpers\/t"/);
+			assert.match(code, new RegExp(`\\{\\{t \\\\"${HELLO_WORLD}\\\\"\\}\\}`));
+		});
+
+		it('leaves t to the resolver in loose templates, as classic builds always have', async function () {
+			const code = await compile(compilerPath, `{{format-message "Hello world"}}`);
+
+			assert.doesNotMatch(code, /ember-intl\/helpers\/t/);
+			assert.doesNotMatch(code, /scope:/);
 		});
 
 		it('shares one t import between several messages in the same template', async function () {

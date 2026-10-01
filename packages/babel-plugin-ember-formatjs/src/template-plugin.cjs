@@ -124,8 +124,12 @@ function buildTransform(passedOptions) {
 		 * from v2 on, which is both what `ember-cli-htmlbars` uses in classic builds and what
 		 * Embroider uses under Vite. Strict-mode templates (`.gjs` / `.gts`) *require* it:
 		 * writing `{{t ...}}` into a strict template without importing `t` fails to compile.
+		 *
+		 * Loose templates (`.hbs`) have a resolver, so they get a bare `{{t}}`, exactly as
+		 * before this package was split out. That keeps classic output unchanged, and under
+		 * Embroider the loose-mode resolver transform binds `t` like any hand-written `{{t}}`.
 		 */
-		const jsutils = env.meta?.jsutils;
+		const jsutils = env.strictMode ? env.meta?.jsutils : undefined;
 
 		function localTHelper(path) {
 			if (jsutils) {
@@ -134,7 +138,6 @@ function buildTransform(passedOptions) {
 				});
 			}
 
-			// Loose templates compiled without jsutils resolve `t` through the resolver.
 			return 't';
 		}
 
